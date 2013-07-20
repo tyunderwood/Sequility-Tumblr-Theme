@@ -1,0 +1,574 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"buf",
+				"bufPrev3"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n<head>\n<!--Learn to buildthemes.tumblr.com-->\n<meta name=\"color:Background\" content=\"#98BEBC\" />\n<meta name=\"color:Links\" content=\"#979395\" />\n<meta name=\"color:Masthead background\" content=\"#ffffff\" />\n<meta name=\"color:Masthead text\" content=\"#252525\" />\n<meta name=\"color:Text\" content=\"#252525\" />\n<meta name=\"font:Body\" content=\"Arial, Helvetica, sans-serif\"/>\n<meta name=\"if:Following in sidebar\" content=\"1\"/>\n<meta name=\"if:Hide sidebar\" content=\"0\"/>\n<meta name=\"if:Likes in sidebar\" content=\"1\"/>\n<meta name=\"if:Search and description in sidebar\" content=\"1\"/>\n<meta name=\"image:Background\" content=\"\"/>\n<meta name=\"image:Masthead\" content=\"\"/>\n{block:Description} <meta name=\"description\" content=\"{MetaDescription}\" /> {/block:Description}\n<title>{block:TagPage}{Tag} - {/block:TagPage} {block:SearchPage}{lang:Search results for SearchQuery} - {/block:SearchPage}{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>\n\n<link rel=\"shortcut icon\" href=\"{Favicon}\"/>\n<link rel=\"alternate\" type=\"application/rss+xml\" title=\"{Title} RSS\" href=\"{RSS}\"/>\n<link rel=\"stylesheet\" href=\"http://static.tumblr.com/hznqxps/ivOmgjf8v/normalize.css\" />\n<link rel=\"stylesheet\" href=\"http://bytyunderwood.com/sequility/css/style.css\" />\n<link rel=\"stylesheet\" href=\"http://bytyunderwood.com/sequility/css/flexslider.css\" />\n\n<script type=\"text/javascript\" src=\"//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js\"></script>\n<script type=\"text/javascript\" src=\"http://bytyunderwood.com/sequility/js/jquery.flexslider.js\"></script>\n\n<script type=\"text/javascript\">\n  \n    $(document).ready(function(){\n        console.log(\"shit is logging okay, now doing ajax biz\");\n\n        var currentPage = {CurrentPage};\n        var totalPages = {TotalPages};\n        console.log (\"Tumblr says the current page is {CurrentPage}\")\n        console.log (\"Current Page is \" + currentPage);\n        var currentPageId = \"#comic\" + currentPage;\n\n        var nextPage = currentPage - 1;\n        var thisPage = \"/page/\" + currentPage;\n        var bufNext1 = \"/page/\" + nextPage;\n        var bufNext2 = \"/page/\" + (nextPage - 1);\n        var bufNext3 = \"/page/\" + (nextPage - 2);\n\n        var prevPage = currentPage + 1;\n        var bufPrev1 = \"/page/\" + prevPage;\n        var bufPrev2 = \"/page/\" + (prevPage + 1);\n        var bufPrev3 = \"/page/\" + (prevPage + 2);\n\n        var pageNextBuffer =  currentPage - 1;\n        var pagePrevBuffer = totalPages - currentPage;\n\n        var moveBack = false;\n        var moveNext = false;   \n\n\n            if (pagePrevBuffer == 0) {\n                \n                $('li.bufPrev2').remove();\n                $('li.bufPrev1').remove();                \n\n            } else if (pagePrevBuffer == 1) {\n                \n                $.get(bufPrev1, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('li.bufPrev1').append($PageElement);\n\n                });  \n\n                $('.bufPrev2').remove();\n                    \n                var sliderStartAt = 1;                  \n            } else if (pagePrevBuffer > 1){\n\n                $.get(bufPrev2, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('.bufPrev2').append($PageElement);\n\n                });  \n                $.get(bufPrev1, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('.bufPrev1').append($PageElement);\n\n                });  \n\n               console.log('pagePrevBuffer count is '+pagePrevBuffer);\n                var sliderStartAt = 2; \n            }\n\n\n            if (pageNextBuffer == 0) {\n                $('li.bufNext2').remove();\n                $('li.bufNext1').remove();                \n            } else if (pageNextBuffer == 1) {\n                $.get(bufNext1, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('li.bufNext1').append($PageElement);\n\n                });  \n\n                $('.bufNext2').remove();\n            } else if (pageNextBuffer > 1) {\n                $.get(bufNext1, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('li.bufNext1').append($PageElement);\n\n                });   \n                $.get(bufNext2, function(data){\n                    var $PageObject= data;\n                    var $PageElement = $($PageObject).find('.ajaxdetect');\n                    $('li.bufNext2').append($PageElement);\n\n                });              \n            }\n\n\n\n\n\n        console.log (\"The page next buffer is \" + pageNextBuffer);\n        console.log (\"The page prev buffer is \" + pagePrevBuffer);\n\n\n\n\n\n\n        $('.flexslider').flexslider({\n\n\n             animation: \"slide\",\n             slideshow: false,\n             animationLoop: false,\n             startAt: sliderStartAt,\n             \n\n\n\n            \n             start: function(slider){\n\n\n\n\n\n            },\n\n            before: function(slider){\n\n\n\n\n\n                var paginateNext = function () {\n                    currentPage = currentPage - 1;\n                    currentPageId = \"#comic\" + currentPage;\n\n                    nextPage = currentPage - 1;\n                    thisPage = \"/page/\" + currentPage;\n                    bufNext1 = \"/page/\" + nextPage;\n                    bufNext2 = \"/page/\" + (nextPage - 1);\n                    bufNext3 = \"/page/\" + (nextPage - 2);\n\n                    prevPage = currentPage + 1;\n                    bufPrev1 = \"/page/\" + prevPage;\n                    bufPrev2 = \"/page/\" + (prevPage + 1);\n                    bufPrev3 = \"/page/\" + (prevPage + 2);\n\n                    pageNextBuffer =  currentPage - 1;\n                    pagePrevBuffer = totalPages - currentPage;\n\n                    console.log('This page: '+thisPage, \"bufNext1: \"+bufNext1, \"bufNext2: \"+bufNext2, \"bufNext3: \"+bufNext3);\n                }\n\n                var paginatePrev = function () {\n                    currentPage = currentPage + 1;\n                    var currentPageId = \"#comic\" + currentPage;\n\n                    nextPage = currentPage + 1;\n                    thisPage = \"/page/\" + currentPage;\n                    bufNext1 = \"/page/\" + nextPage;\n                    bufNext2 = \"/page/\" + (nextPage - 1);\n                    bufNext3 = \"/page/\" + (nextPage - 2);\n\n                    prevPage = currentPage + 1;\n                    bufPrev1 = \"/page/\" + prevPage;\n                    bufPrev2 = \"/page/\" + (prevPage + 1);\n                    bufPrev3 = \"/page/\" + (prevPage + 2);\n\n                    pageNextBuffer =  currentPage - 1;\n                    pagePrevBuffer = totalPages - currentPage;\n\n                \n                }\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                if (slider.animatingTo > slider.currentSlide){\n                    console.log(\"Movin' Forward\");\n                    if (pageNextBuffer > 2) {\n                \n                        paginateNext();\n                        console.log(\"Page \"+bufNext3+\" is next for the end\");\n                    }\n                }else if (slider.animatingTo < slider.currentSlide){\n\n                    if (pagePrevBuffer > 2) {\n                \n                        paginatePrev();\n                        console.log(\"Page \"+bufPrev3+\" is next for the end\");\n\n                    }\n                }\n\n\n\n\n\n\n\n\n        },\n\n        end: function(slider){\n\n\n\n                var getPageAjax = function (pageLink, position, pageClass) {\n\n                    $('.slides').append('<li class=\"'+pageClass+'\"></li>');\n                    $.ajax({\n                        url: pageLink,\n                        beforeSend:function(){\n                            $('.'+pageClass).html('<div class=\"loading\">loading...</div>');\n                            slider.addSlide(('.'+pageClass), position);\n                        },\n                        success: function(data) {\n                            $(('.'+pageClass)).empty();\n                            var $nextPageElement = $(data).find('.ajaxdetect > *');\n                            $('.'+pageClass).append($nextPageElement);\n                            \n                        }\n\n                    });\n                }\n\n\n\n            //if (slider.currentSlide == slider.count){\n                if (pageNextBuffer >= 1) {\n                        getPageAjax(bufNext1, (slider.count+1), (nextPage));\n                        console.log(\"Added page \"+bufNext1+\" to the end!\");\n                    }\n\n\n                if (slider.currentSlide >= 2){\n                        getPageAjax(bufNext2, (slider.count+2), (nextPage - 1));\n                        console.log(\"Added page \"+bufNext2+\" to the end!\");\n                }\n                if (slider.currentSlide > 2){\n                        getPageAjax(bufNext3, (slider.count+3), (nextPage - 2));\n                        console.log(\"Added page \"+bufNext3+\" to the end!\");\n                }\n\n            //}\n\n        }\n        \n\n\n\n\n\n\n\n\n                 \n\n        });\n\n\n\n    });\n\n</script>\n\n<style>\n/*Basic styles*/\n\n{CustomCSS}\n</style>\n</head>\n\n<body>\n<header id=\"masthead\">\n    <img src=\"{PortraitURL-128}\"/>\n    <h1><a href=\"/\" title=\"{lang:Home}\">{Title}</a></h1>\n    <nav>\n    <ul>\n        {block:HasPages}\n        {block:Pages}\n        <li> <a href=\"{URL}\">{Label}</a></li>\n        {/block:Pages}\n        {/block:HasPages}\n        {block:SubmissionsEnabled}\n        <li> <a href=\"/submit\">{SubmitLabel}</a></li>\n        {/block:SubmissionsEnabled}\n        {block:AskEnabled}\n        <li> <a href=\"/ask\">{AskLabel}</a></li>\n        {/block:AskEnabled}\n    </ul>\n    </nav>\n</header>\n\n<aside id=\"sidebar\">\n    {block:IfSearchAndDescriptionInSidebar}\n    <div class=\"item\">\n        {block:Description}\n        <h2>{lang:About Me}</h2>\n        <p>{Description}</p>\n        {block:Description}\n        \n        <form action=\"/search\" method=\"get\">\n            <input type=\"text\" name=\"q\" value=\"{SearchQuery}\" placeholder=\"{lang:Search}\"/>\n        </form>\n    </div>\n    {/block:IfSearchAndDescriptionInSidebar}\n\n    {block:IfLikesInSidebar}\n    {block:Likes}\n    <div class=\"item\">\n        <h2>{lang:Likes}</h2>\n        {Likes limit=\"1\" summarize=\"100\" width=\"150\"}\n        <a href=\"http://www.tumblr.com/liked/by/{Name}\">\n        {lang:More liked posts}\n        </a>\n    </div>\n    {/block:Likes}\n    {/block:IfLikesInSidebar}\n\n    {block:IfFollowingInSidebar}\n    {block:Following}\n    <div class=\"item\">\n        <h2>{lang:People I follow}</h2>\n        <div id=\"followed\">\n            <ul>\n                {block:Followed}\n                <li>\n                    <a href=\"{FollowedURL}\"><img src=\"{FollowedPortraitURL-48}\"/></a>\n                </li>\n                {/block:Followed}\n            </ul>\n        </div>\n    </div>\n    {/block:Following}\n    {/block:IfFollowingInSidebar}\n</aside>\n \n<div id=\"content\">\n    {block:Posts}\n    <article>\n\n          <div class=\"flexslider\">\n            <ul class=\"slides\">\n              <li class=\"bufPrev2\">\n\n              </li>\n              <li class=\"bufPrev1\">\n\n              </li>\n              <li class=\"ajaxdetect\">\n                {block:Photo}\n                <div class=\"photo inner\">\n                    <img src=\"{PhotoURL-HighRes}\" alt=\"{PhotoAlt}\" />\n                    {block:Caption}{Caption}{/block:Caption}\n                {/block:Photo}\n                <h2>{CurrentPage}</h2>\n              </li>\n              <li class=\"bufNext1\">\n\n              </li>\n              <li class=\"bufNext2\">\n\n              </li>\n\n\n\n            </ul>\n          </div>\n\n\n\n\n        {block:Date}\n        <footer class=\"metadata\">\n            <ul class=\"index\">\n                <li><a href=\"{Permalink}\"> <time datetime=\"{Year}-{MonthNumberWithZero}-{DayOfMonthWithZero}\">{DayOfMonth} {Month} {Year}</time> </a></li>\n\n                {block:NoteCount}<li><a class=\"notecount\" href=\"{Permalink}#notes\">{NoteCountWithLabel}</a></li>{/block:NoteCount}\n                \n                {block:ContentSource}\n                <li><a href=\"{SourceURL}\">{lang:Source}:{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}\n                {block:SourceLogo}<img src=\"{BlackLogoURL}\" width=\"{LogoWidth}\"height=\"{LogoHeight}\" alt=\"{SourceTitle}\" />{/block:SourceLogo}</a></li>\n                {/block:ContentSource} \n            </ul>\n\n            {block:PermalinkPage}\n            {block:HasTags}\n            <ul class=\"tags\">\n                {block:Tags}<li><a href=\"{TagURL}\">{Tag}</a> </li>{/block:Tags}\n            </ul>\n            {/block:HasTags}\n            \n            {block:PostNotes}\n            <div id=\"notes\">\n                {PostNotes}\n            </div>\n            {/block:PostNotes} \n            {/block:PermalinkPage} \n        </footer>\n        {/block:Date}\n     </article>\n    {/block:Posts}\n    {block:Pagination}\n    <nav id=\"pagination\">\n        <ul>\n            {block:PreviousPage}<li><a href=\"{PreviousPage}\">Previous page</a></li>{/block:PreviousPage}\n            {block:NextPage}<li><a href=\"{NextPage}\">Next page</a></li>{/block:NextPage}\n            <li><a href=\"/page/{TotalPages}\">Go To The Beginning</a></li>\n        </ul>\n    </nav>\n    {/block:Pagination}\n</div>\n</body>\n</html>",
+			"file": "sequility.html",
+			"file_size": 13980,
+			"file_write_time": 130178893750133889,
+			"settings":
+			{
+				"buffer_size": 13510,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "                //console.log(\"Start Count: \"+slider.count);\n                //console.log(\"Current Slide: \"+slider.currentSlide);\n\n                console.log(bufPrev2, bufPrev1, thisPage, bufNext1, bufNext2);\n\n                if (pageNextBuffer == 1){\n                    getPage(bufNext1, 2);\n                } else if (pageNextBuffer > 1){\n                    getPage(bufNext1, 2);\n                    getPage(bufNext2, 3);                  \n                } else if (pageNextBuffer == 0){\n\n                }\n\n                if (pagePrevBuffer == 0) {\n                    \n                 \n                } else if (pagePrevBuffer >= 1){\n                    \n                    getPage(bufPrev1, 0);                     \n                } \n\n               // slider.removeSlide(0);     \n             },\n\n             \n\n             \n\n             added: function(slider){\n\n\n\n                if (pagePrevBuffer == 0) {\n                    if (slider.currentSlide !== 0){\n                        console.log(\"There are no previous pages\");\n                        slider.currentSlide = 0;                     \n                    }\n\n                 \n                } else if (pagePrevBuffer >= 1){\n                    if (slider.currentSlide != 1 && slider.count == 4){\n                        console.log(\"There are \" + pagePrevBuffer +\" previous pages\"); \n                        console.log(\"currentSlide is not 1 and slider count is 4\");\n                        slider.currentSlide = 1;                          \n                    }\n                }  \n\n                \n                             \n             },\n             \n             after: function(slider){\n                console.log(\"Count: \"+slider.count);\n                console.log(\"Current Slide: \"+slider.currentSlide); \n             } \n\n             \n\n \n\n\n           after: function(slider){\n\n\n                 var getPage = function (pageLink, position) {\n                    $.get(pageLink, function(data){\n                        var $nextPageObject= data;\n                        var $nextPageElement = $($nextPageObject).find('.ajaxdetect');\n                        $('.slides').append($nextPageElement);\n                        slider.addSlide($nextPageElement, position);\n                    });            \n                }\n\n\n               \n\n\n\n\n\n\n\n                if (slider.count < totalPages) {\n\n                    getPage(bufNext1);\n\n                }\n\n\n\n\n\n\n\n\n            }, \n\n           before: function(slider){\n\n                var getPage = function (pageLink) {\n                    $.get(pageLink, function(data){\n                        var $nextPageObject= data;\n                        var $nextPageElement = $($nextPageObject).find('.ajaxdetect');\n                        $('.slides').append($nextPageElement);\n                        slider.addSlide($nextPageElement);\n                    });            \n                }\n\n                var paginateForward = function () {\n                        currentPage = currentPage - 1;\n                        currentPageId = \"#comic\" + currentPage;\n\n                        nextPage = currentPage - 1;\n                        bufNext1 = \"/page/\" + nextPage;\n\n                        prevPage = currentPage + 1;\n                        bufPrev1 = \"/page/\" + prevPage;\n\n                        console.log(\"The current page is \" + currentPage);\n                        console.log(\"The next page is \" + nextPage);\n                        console.log(\"The prev page is \" + prevPage);\n                }\n                var paginateBack = function () {\n                        currentPage = currentPage + 1;\n                        currentPageId = \"#comic\" + currentPage;\n\n                        nextPage = currentPage - 1;\n                        bufNext1 = \"/page/\" + nextPage;\n\n                        prevPage = currentPage + 1;\n                        bufPrev1 = \"/page/\" + prevPage;\n\n                        console.log(\"The current page is \" + currentPage);\n                        console.log(\"The next page is \" + nextPage);\n                        console.log(\"The prev page is \" + prevPage);\n                }\n\n\n                if (slider.animatingTo > slider.currentSlide){\n                    console.log(\"Movin' Forward\");\n\n                    //getPage(bufNext1);\n                    paginateForward();\n\n\n\n                }else if(slider.animatingTo < slider.currentSlide){\n                    console.log(\"Movin' Back\");\n\n                    //getPage(bufPrev1);\n                    paginateBack();\n                }\n            } ",
+			"settings":
+			{
+<<<<<<< HEAD
+				"buffer_size": 7893,
+				"line_ending": "Unix"
+=======
+				"buffer_size": 4599,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html>\n<head>\n<!--Learn to buildthemes.tumblr.com-->\n<meta name=\"color:Background\" content=\"#98BEBC\" />\n<meta name=\"color:Links\" content=\"#979395\" />\n<meta name=\"color:Masthead background\" content=\"#ffffff\" />\n<meta name=\"color:Masthead text\" content=\"#252525\" />\n<meta name=\"color:Text\" content=\"#252525\" />\n<meta name=\"font:Body\" content=\"Arial, Helvetica, sans-serif\"/>\n<meta name=\"if:Following in sidebar\" content=\"1\"/>\n<meta name=\"if:Hide sidebar\" content=\"0\"/>\n<meta name=\"if:Likes in sidebar\" content=\"1\"/>\n<meta name=\"if:Search and description in sidebar\" content=\"1\"/>\n<meta name=\"image:Background\" content=\"\"/>\n<meta name=\"image:Masthead\" content=\"\"/>\n{block:Description} <meta name=\"description\" content=\"{MetaDescription}\" /> {/block:Description}\n<title>{block:TagPage}{Tag} - {/block:TagPage} {block:SearchPage}{lang:Search results for SearchQuery} - {/block:SearchPage}{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>\n\n<link rel=\"shortcut icon\" href=\"{Favicon}\"/>\n<link rel=\"alternate\" type=\"application/rss+xml\" title=\"{Title} RSS\" href=\"{RSS}\"/>\n<link rel=\"stylesheet\" href=\"http://static.tumblr.com/hznqxps/ivOmgjf8v/normalize.css\" />\n\n<style>\n/*Basic styles*/\nbody {\n    background: {color:Background} url('{image:Background}') repeat;\n    color: {color:Text};\n    font-family: {font:Body};\n    font-size: 0.8em;\n}\na {\n    color: {color:Links};\n    text-decoration: none;\n}\nh1, h2, h3, h4, h5, h6 {\n    font-weight: normal;\n    letter-spacing: 0.1em;\n    text-transform: uppercase;\n}\nnav ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\nnav li {\n    display: inline;\n}\niframe, img, embed, object, video {\n    max-width: 100%;\n}\n/*Masthead*/\n#masthead {\n    background: {color:Masthead background} url('{image:Masthead}');\n    margin-bottom: 5%;\n    padding: 1%;\n    text-align: center;\n}\n#masthead a {\n    color: {color:Masthead text};\n}\n/*Pages*/\n#masthead nav li a {\n    border-bottom: 1px solid {color:Masthead text};\n    margin-right: 0.5%;\n    padding: 0.2%;\n}\n/*Sidebar*/\n#sidebar {\n    float: right;\n    margin: 0 5%;\n    width: 20%;\n}\n.item {\n    margin-bottom: 15%;\n    background: #fff;\n    padding: 1% 5%;\n}\n/*Content area*/\n#content {\n    margin-left: 5%;\n    width: 65%;\n}\n{block:IfHideSidebar}\n#content {\n    width: 90%;\n}\n#sidebar {\n    display: none;\n}\n{/block:IfHideSidebar}\n/*Articles*/\n#content article {\n    background: #fff;\n    margin-bottom: 5%;\n}\narticle .inner {\n    display: inline-block;\n    padding: 4%;\n    width: 92%;\n}\n/*Post styles*/\n.title a {\n    color: {color:Text};\n}\nblockquote {\n    background: rgba(0, 0, 0, 0.06);\n    margin: 0;\n    padding: 2%;\n}\n.photo img {\n    display: block;\n}\n.html_photoset {\n    text-align: center;\n    background: rgb(68, 68, 68);\n    padding: 6% 0;\n}\n.link .title a {\n    border-bottom: 1px solid;\n}\n.chat ul {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\n.chat li {\n    padding: 0.5% 2%;\n}\n.chat .even {\n    background: #f2f2f2;\n}\n.user {\n    font-size: 0.85em;\n    text-align: center;\n    text-transform: uppercase;\n    float: left;\n    margin-right: 3%;\n}\n/*Tags*/\n.metadata {\n    background: rgba(233, 233, 233, 0.76);\n    border-top: 1px solid #ADADAD;\n    font-size: 0.9em;\n    padding: 2% 4%;\n}\n.metadata ul {\n    width: 100%;\n    display: inline-block;\n}\n.metadata ul, #notes ol {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\n.tags {\n    margin-top: 1% !important;\n}\n.tags li {\n    border: 1px solid #353535;\n    padding: 0.5%;\n    background: rgba(37, 37, 37, 0.84);\n}\n.index li, .tags li {\n    float: left;\n    margin-right: 2%;\n}\n.note {\n    border-bottom: 1px solid white;\n    padding: 1% 0;\n}\n/*Sidebar items*/\n.item form input {\n    border: none;\n    border-bottom: 1px solid #d1d1d1;\n    padding: 2% 1%;\n    width: 96%;\n    margin-bottom: 2%;\n}\n#likes {\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\n#followed ul {\n    display: inline-block;\n    list-style: none;\n    margin: 0 0 4% 0;\n    padding: 0;\n    width: 100%;\n}\n#followed img {\n    display: block;\n    float: left;\n}\n/*Pagination*/\n#pagination li a {\n    background: #fff;\n    margin-right: 1%;\n    padding: 1%;\n}\n/*Common styles*/\n#content article, .item, #masthead, #pagination a {\n    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.33);\n}\nblockquote, footer {\n    box-shadow: 0px 1px 6px 1px rgba(0, 0, 0, 0.11) inset;\n}\n#content article, .item {\n    border-radius: 0.2em;\n}\n{CustomCSS}\n</style>\n</head>\n\n<body>\n<header id=\"masthead\">\n    <img src=\"{PortraitURL-128}\"/>\n    <h1><a href=\"/\" title=\"{lang:Home}\">{Title}</a></h1>\n    <nav>\n    <ul>\n        {block:HasPages}\n        {block:Pages}\n        <li> <a href=\"{URL}\">{Label}</a></li>\n        {/block:Pages}\n        {/block:HasPages}\n        {block:SubmissionsEnabled}\n        <li> <a href=\"/submit\">{SubmitLabel}</a></li>\n        {/block:SubmissionsEnabled}\n        {block:AskEnabled}\n        <li> <a href=\"/ask\">{AskLabel}</a></li>\n        {/block:AskEnabled}\n    </ul>\n    </nav>\n</header>\n\n<aside id=\"sidebar\">\n    {block:IfSearchAndDescriptionInSidebar}\n    <div class=\"item\">\n        {block:Description}\n        <h2>{lang:About Me}</h2>\n        <p>{Description}</p>\n        {block:Description}\n        \n        <form action=\"/search\" method=\"get\">\n            <input type=\"text\" name=\"q\" value=\"{SearchQuery}\" placeholder=\"{lang:Search}\"/>\n        </form>\n    </div>\n    {/block:IfSearchAndDescriptionInSidebar}\n\n    {block:IfLikesInSidebar}\n    {block:Likes}\n    <div class=\"item\">\n        <h2>{lang:Likes}</h2>\n        {Likes limit=\"1\" summarize=\"100\" width=\"150\"}\n        <a href=\"http://www.tumblr.com/liked/by/{Name}\">\n        {lang:More liked posts}\n        </a>\n    </div>\n    {/block:Likes}\n    {/block:IfLikesInSidebar}\n\n    {block:IfFollowingInSidebar}\n    {block:Following}\n    <div class=\"item\">\n        <h2>{lang:People I follow}</h2>\n        <div id=\"followed\">\n            <ul>\n                {block:Followed}\n                <li>\n                    <a href=\"{FollowedURL}\"><img src=\"{FollowedPortraitURL-48}\"/></a>\n                </li>\n                {/block:Followed}\n            </ul>\n        </div>\n    </div>\n    {/block:Following}\n    {/block:IfFollowingInSidebar}\n</aside>\n \n<div id=\"content\">\n    {block:Posts}\n    <article>\n        {block:Text}\n        <div class=\"text inner\">\n            {block:Title}<h1 class=\"title\"><a href=\"{Permalink}\">{Title}</a></h1>{/block:Title}\n            {Body}\n        {/block:Text}\n\n        {block:Photo}\n        <div class=\"photo inner\">\n            {LinkOpenTag}<img src=\"{PhotoURL-HighRes}\" alt=\"{PhotoAlt}\" />{LinkCloseTag}\n            {block:Caption}{Caption}{/block:Caption}\n        {/block:Photo}\n\n        {block:Photoset}\n        <div class=\"photoset inner\">\n            {Photoset-700}\n            {block:Caption}{Caption}{/block:Caption}\n        {/block:Photoset}\n\n        {block:Quote}\n        <div class=\"quote inner\">\n            <blockquote>{Quote}</blockquote>\n            {block:Source}<cite> {Source} </cite>{/block:Source}\n        {/block:Quote}\n\n        {block:Link}\n        <div class=\"link inner\">\n            <h1 class=\"title\"><a href=\"{URL}\">{Name}</a></h1>\n            {block:Description}{Description}{/block:Description}\n        {/block:Link}\n\n        {block:Chat}\n        <div class=\"chat inner\">\n            <ul>\n                {block:Lines}<li class=\"{Alt}\"><p>{block:Label}<strong>{Label}</strong>{/block:Label} {Line} </p></li>{/block:Lines}\n            </ul>\n        {/block:Chat}\n\n        {block:Audio}\n        <div class=\"audio inner\">\n            {block:TrackName}<h1 class=\"title\"><a href=\"{Permalink}\">{TrackName}</a></h1>{/block:TrackName}\n            {block:AlbumArt}<img src=\"{AlbumArtURL}\" width=\"500\" height=\"500\"/>{/block:AlbumArt}\n            {AudioPlayerBlack}\n            {block:Caption}{Caption}{/block:Caption}\n        {/block:Audio}\n\n        {block:Video}\n        <div class=\"video inner\">\n            {Video-700}\n            {block:Caption}{Caption}{/block:Caption}\n        {/block:Video}\n\n        {block:Answer}\n        <div class=\"answer inner\">\n            <h1 class=\"title\">{Question}</h1>\n            <div class=\"user\"><img src=\"{AskerPortraitURL-96}\"/><p>{Asker}</p></div>\n            {Answer}\n        {/block:Answer}\n        </div>\n\n        {block:Date}\n        <footer class=\"metadata\">\n            <ul class=\"index\">\n                <li><a href=\"{Permalink}\"> <time datetime=\"{Year}-{MonthNumberWithZero}-{DayOfMonthWithZero}\">{DayOfMonth} {Month} {Year}</time> </a></li>\n\n                {block:NoteCount}<li><a class=\"notecount\" href=\"{Permalink}#notes\">{NoteCountWithLabel}</a></li>{/block:NoteCount}\n                \n                {block:ContentSource}\n                <li><a href=\"{SourceURL}\">{lang:Source}:{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}\n                {block:SourceLogo}<img src=\"{BlackLogoURL}\" width=\"{LogoWidth}\"height=\"{LogoHeight}\" alt=\"{SourceTitle}\" />{/block:SourceLogo}</a></li>\n                {/block:ContentSource} \n            </ul>\n\n            {block:PermalinkPage}\n            {block:HasTags}\n            <ul class=\"tags\">\n                {block:Tags}<li><a href=\"{TagURL}\">{Tag}</a> </li>{/block:Tags}\n            </ul>\n            {/block:HasTags}\n            \n            {block:PostNotes}\n            <div id=\"notes\">\n                {PostNotes}\n            </div>\n            {/block:PostNotes} \n            {/block:PermalinkPage} \n        </footer>\n        {/block:Date}\n     </article>\n    {/block:Posts}\n    {block:Pagination}\n    <nav id=\"pagination\">\n        <ul>\n            {block:PreviousPage}<li><a href=\"{PreviousPage}\">Previous page</a></li>{/block:PreviousPage}\n            {block:NextPage}<li><a href=\"{NextPage}\">Next page</a></li>{/block:NextPage}\n        </ul>\n    </nav>\n    {/block:Pagination}\n</div>\n</body>\n</html>",
+			"settings":
+			{
+				"buffer_size": 9805,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sequility/scss/style.scss",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sequility/js/jquery.flexslider.js",
+			"settings":
+			{
+				"buffer_size": 40485,
+				"line_ending": "Windows"
+>>>>>>> forward works
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 58.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Add Repository"
+			],
+			[
+				"pa",
+				"Package Control: Add Repository"
+			],
+			[
+				"pack",
+				"Package Control: Add Repository"
+			],
+			[
+				"p",
+				"Package Control: Add Repository"
+			],
+			[
+				"package",
+				"Package Control: Add Repository"
+			],
+			[
+				"Package",
+				"Package Control: Add Repository"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 362.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Ty/Documents/GitHub/Sequility-Tumblr-Theme/sequility/js/jquery.flexslider.js",
+		"/C/Users/Ty/Documents/GitHub/Sequility-Tumblr-Theme/woothemes-FlexSlider-a4647ed/demo/index.html",
+		"/C/Users/Ty/Documents/GitHub/Sequility-Tumblr-Theme/woothemes-FlexSlider-a4647ed/demo/thumbnail-controlnav.html",
+		"/C/Users/Ty/Google Drive/Documents/JqueryNotes.txt",
+		"/C/wamp/www/Tumblr/themes/sequility.tumblr",
+		"/C/wamp/www/Tumblr/themes/sequility/css/style.css",
+		"/C/Users/Ty/AppData/Roaming/Sublime Text 2/Packages/User/Plain text.sublime-settings",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/demo/demo.css",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/demo.tumblr",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/sequility.tumblr",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/Sequility/scss/style.scss",
+		"/C/xampp/apache/conf/httpd.conf",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/Sequility/sequility.tumblr",
+		"/C/xampp/htdocs/sites/SequilityTumblr/themes/Sequility/sequility.tumblr.html",
+		"/C/Users/Ty/Documents/tumblrthemr-1.1/themes/demo.tumblr",
+		"/C/Users/Ty/Google Drive/Sites/SequilityTumblr/sequility-backupstyles.html",
+		"/C/Users/Ty/Google Drive/Sites/SequilityTumblr/style.scss",
+		"/C/Users/Ty/Google Drive/Sites/SequilityTumblr/sequility.scss",
+		"/C/Users/Ty/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Ty/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Ty/Google Drive/CDOverhaul/test pages/repair/style.css",
+		"/C/Users/Ty/Google Drive/CDOverhaul/test pages/repair/computers-laptop.html",
+		"/C/Users/Ty/Google Drive/CDOverhaul/test pages/repair/index.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/exhibitions.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/css/app.css",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/oldpages/illustration.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/oldpages/exhibitions.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/oldpages/reel.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/current/illustration.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/css/style.css",
+		"/C/Users/Ty/Google Drive/new portfolio site/exhibitions.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/index.html",
+		"/C/Users/Ty/Google Drive/IGTM303/Final Project/Final_Project.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/illustration.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/interactive.html",
+		"/C/Users/Ty/Google Drive/new portfolio site/exhibition.html",
+		"/C/Users/Ty/Google Drive/Lupita/index.html",
+		"/C/Users/Ty/Google Drive/IGTM303/Final Project/cameraContainer.as",
+		"/C/Users/Ty/Google Drive/CDO New Design/css/style.css",
+		"/C/Users/Ty/Google Drive/IGTM303/Final Project/arrow.as",
+		"/C/Users/Ty/Google Drive/Starling Framework/tutorial assets/startingWIthStarling_project/src/StarlingProject.as",
+		"/C/Users/Ty/AppData/Local/Temp/Temp1_startingWithStarling_ep3_projectFiles.zip/src/Assets.as",
+		"/C/Users/Ty/Google Drive/IGTM303/Final Project/bullshit.as",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/index.html",
+		"/C/Users/Ty/Google Drive/Sequility/includes/css/style.css",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/css/flexslider.css",
+		"/C/Users/Ty/Google Drive/Sequility/gallery/index.php",
+		"/C/Users/Ty/Google Drive/Sequility/index.php",
+		"/C/Users/Ty/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Ty/Google Drive/Sass Sequility/Sequility/index.html",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/css/icons.css",
+		"/C/Users/Ty/Downloads/icomoon3628/icomoon3628/style.css",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/comic_viewer.html",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/css/style.css",
+		"/C/Users/Ty/Google Drive/Sequility/new-design/css/viewer-style.css",
+		"/C/Users/Ty/Google Drive/Portfolio site 2/index.html",
+		"/C/Users/Ty/Google Drive/Sequility/css/style.css",
+		"/C/Users/Ty/Google Drive/Sequility/index.html",
+		"/C/Users/Ty/Google Drive/Sequility/prototype/index.html",
+		"/C/Users/Ty/Google Drive/Sequility/prototype/css/style.css",
+		"/C/Users/Ty/Google Drive/Sequility/README.md"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"remove",
+			"*/",
+			"/*",
+			"buffPrev",
+			"buffNext",
+			"directionNav",
+			"pageEndBuffer",
+			"pageBeginBuffer",
+			"prevPageLink",
+			"nextPageLink",
+			"/comic/",
+			"Page",
+			"pagination",
+			".sub_menu h2",
+			"nav-title",
+			"container",
+			"active",
+			"bebas",
+			"h3",
+			"content",
+			"thumbnail",
+			"background",
+			"thumbnail",
+			"thumbnai",
+			"border-bottom",
+			"border",
+			"butt",
+			"gallery-co",
+			"thum",
+			"thumbnail",
+			"illustr",
+			"e53325",
+			"<a ",
+			"h1",
+			"sectio",
+			"demo index",
+			"reel",
+			"websites",
+			"				    ",
+			"bender",
+			".button",
+			".buttom",
+			"background",
+			"bender",
+			"color:",
+			"color: white",
+			"background-color: #bf2c20",
+			"background-color: ",
+			"background-color",
+			"sec",
+			"button",
+			"hover",
+			"button",
+			"height",
+			"h3",
+			"img",
+			"color: white",
+			"background-color: #bf2c20",
+			"background-color",
+			"gallery",
+			"gallery]",
+			"gallery-teim",
+			"background-color: #bf2c20;",
+			"img",
+			"section",
+			"600px",
+			"gallery",
+			"img",
+			"#fc7304",
+			"background-color: #ce4237",
+			"background-color: #",
+			"background-color: #e77652",
+			"background-color: #d16860;",
+			"background-color",
+			"background-color: #dc3326;",
+			"background-color: #e77652;",
+			"background-color: black;",
+			"gallery",
+			"sticky",
+			"color",
+			"section-heading",
+			"h3",
+			"202020",
+			"border",
+			"crap",
+			"gallery",
+			"black",
+			"box-shadow",
+			"black",
+			"h2",
+			"h3",
+			"h2",
+			"h3",
+			"h2",
+			"color: ",
+			"h3",
+			"thumbnail",
+			"box-shadow",
+			"transition",
+			"transform",
+			"shadow",
+			"background-color",
+			"wrapper",
+			"faux-margin",
+			"border",
+			"img",
+			"padding-top",
+			",\n",
+			"0.7",
+			"color",
+			"heading-wrapper",
+			"960px",
+			"5px",
+			"media",
+			"600",
+			"0",
+			"background",
+			"gallery-item",
+			"media",
+			"banner",
+			"img",
+			"border",
+			",\n",
+			"border",
+			"#000",
+			"#fff",
+			"row",
+			"border"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"bufPrev",
+			"bufNext",
+			"pageNextBuffer",
+			"pagePrevBuffer",
+			"bufPrev1",
+			"bufNext1",
+			"Comic",
+			"demo reel",
+			"index",
+			"background-color: #f8f2e5",
+			"color: #252525",
+			"background-color: #f3ecdc;",
+			"background-color: none;",
+			"white",
+			"background-color: #bf2c20",
+			"background-color: #ce4237;",
+			"background-color: #d16860;",
+			"background-color: #dc3326;",
+			"background-color: #e77652;",
+			"black"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "sequility.html",
+					"settings":
+					{
+<<<<<<< HEAD
+						"buffer_size": 7893,
+=======
+						"buffer_size": 13510,
+>>>>>>> forward works
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+<<<<<<< HEAD
+								0,
+								0
+=======
+								5242,
+								5242
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 54.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"settings":
+					{
+						"buffer_size": 4599,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4599,
+								4175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 980.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 9805,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7485,
+								7485
+>>>>>>> forward works
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4016.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "sequility/scss/style.scss",
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Sass/Syntaxes/Sass.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "sequility/js/jquery.flexslider.js",
+					"settings":
+					{
+						"buffer_size": 40485,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9316,
+								9328
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2991.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 236.0,
+	"status_bar_visible": true
+}

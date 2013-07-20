@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--Learn to buildthemes.tumblr.com-->
+<meta name="color:Background" content="#98BEBC" />
+<meta name="color:Links" content="#979395" />
+<meta name="color:Masthead background" content="#ffffff" />
+<meta name="color:Masthead text" content="#252525" />
+<meta name="color:Text" content="#252525" />
+<meta name="font:Body" content="Arial, Helvetica, sans-serif"/>
+<meta name="if:Following in sidebar" content="1"/>
+<meta name="if:Hide sidebar" content="0"/>
+<meta name="if:Likes in sidebar" content="1"/>
+<meta name="if:Search and description in sidebar" content="1"/>
+<meta name="image:Background" content=""/>
+<meta name="image:Masthead" content=""/>
+{block:Description} <meta name="description" content="{MetaDescription}" /> {/block:Description}
+<title>{block:TagPage}{Tag} - {/block:TagPage} {block:SearchPage}{lang:Search results for SearchQuery} - {/block:SearchPage}{block:PostSummary}{PostSummary} - {/block:PostSummary}{Title}</title>
+
+<link rel="shortcut icon" href="{Favicon}"/>
+<link rel="alternate" type="application/rss+xml" title="{Title} RSS" href="{RSS}"/>
+<link rel="stylesheet" href="http://static.tumblr.com/hznqxps/ivOmgjf8v/normalize.css" />
+<link rel="stylesheet" href="http://bytyunderwood.com/sequility/css/flexslider.css" />
+<link rel="stylesheet" href="http://bytyunderwood.com/sequility/css/style.css" />
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://bytyunderwood.com/sequility/js/jquery.flexslider.js"></script>
+
+<script type="text/javascript">
+  
+    $(document).ready(function(){
+        console.log("shit is logging okay, now doing ajax biz");
+
+        var currentPage = {CurrentPage};
+        var totalPages = {TotalPages};
+        console.log ("Tumblr says the current page is {CurrentPage}")
+        console.log ("Current Page is " + currentPage);
+        var currentPageId = "#comic" + currentPage;
+<<<<<<< HEAD
+        var nextPage = currentPage - 1;
+        var nextPageId = "#comic" + nextPage;
+        var nextPageLink = "/page/" + nextPage;
+
+
+        console.log ("Tumblr says the current page is {CurrentPage}")
+        console.log ("Current Page is " + currentPage);
+        console.log ("Total Page Count is " + totalPages);
+        console.log("The next page is " + nextPage);
+=======
+
+        var nextPage = currentPage - 1;
+        var thisPage = "/page/" + currentPage;
+        var bufNext1 = "/page/" + nextPage;
+        var bufNext2 = "/page/" + (nextPage - 1);
+        var bufNext3 = "/page/" + (nextPage - 2);
+
+        var prevPage = currentPage + 1;
+        var bufPrev1 = "/page/" + prevPage;
+        var bufPrev2 = "/page/" + (prevPage + 1);
+        var bufPrev3 = "/page/" + (prevPage + 2);
+
+        var pageNextBuffer =  currentPage - 1;
+        var pagePrevBuffer = totalPages - currentPage;
+
+        var moveBack = false;
+        var moveNext = false;   
+
+
+            if (pagePrevBuffer == 0) {
+                
+                $('li.bufPrev2').remove();
+                $('li.bufPrev1').remove();                
+
+            } else if (pagePrevBuffer == 1) {
+                
+                $.get(bufPrev1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufPrev1').append($PageElement);
+
+                });  
+
+                $('.bufPrev2').remove();
+                    
+                var sliderStartAt = 1;                  
+            } else if (pagePrevBuffer > 1){
+
+                $.get(bufPrev2, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('.bufPrev2').append($PageElement);
+
+                });  
+                $.get(bufPrev1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('.bufPrev1').append($PageElement);
+>>>>>>> forward works
+
+                });  
+
+<<<<<<< HEAD
+=======
+               console.log('pagePrevBuffer count is '+pagePrevBuffer);
+                var sliderStartAt = 2; 
+            }
+
+
+            if (pageNextBuffer == 0) {
+                $('li.bufNext2').remove();
+                $('li.bufNext1').remove();                
+            } else if (pageNextBuffer == 1) {
+                $.get(bufNext1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext1').append($PageElement);
+
+                });  
+
+                $('.bufNext2').remove();
+            } else if (pageNextBuffer > 1) {
+                $.get(bufNext1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext1').append($PageElement);
+
+                });   
+                $.get(bufNext2, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext2').append($PageElement);
+
+                });              
+            }
+
+
+
+
+
+        console.log ("The page next buffer is " + pageNextBuffer);
+        console.log ("The page prev buffer is " + pagePrevBuffer);
+>>>>>>> forward works
+
+        //get the Tumblr Data from this HTML page and assign links to variables
+
+
+
+
+
+        $('.flexslider').flexslider({
+
+
+             animation: "slide",
+             slideshow: false,
+<<<<<<< HEAD
+            
+             start: function(slider){
+
+                 var getPage = function (pageLink) {
+                    $.get(pageLink, function(data){
+                        var $nextPageObject= data;
+                        var $nextPageElement = $($nextPageObject).find('.ajaxdetect');
+                        $('.slides').append($nextPageElement);
+                        slider.addSlide($nextPageElement);
+                    });            
+                }
+
+                var paginateForward = function () {
+                        currentPage = currentPage - 1;
+                        currentPageId = "#comic" + currentPage;
+                        nextPage = currentPage - 1;
+                        nextPageId = "#comic" + nextPage;
+                        nextPageLink = "/page/" + nextPage;
+                        console.log("The current page is " + currentPage);
+                        console.log("The next page is " + nextPage);
+                }
+
+                getPage(nextPageLink);
+                paginateForward();
+                slider.removeSlide(1);               
+             },
+=======
+             animationLoop: false,
+             startAt: sliderStartAt,
+             itemWidth: 80,
+             maxItems: 1,
+             minItems: 1,
+>>>>>>> forward works
+             
+
+
+
+            
+             start: function(slider){
+
+
+<<<<<<< HEAD
+            after: function(slider){
+
+
+                 var getPage = function (pageLink) {
+                    $.get(pageLink, function(data){
+                        var $nextPageObject= data;
+                        var $nextPageElement = $($nextPageObject).find('.ajaxdetect');
+                        $('.slides').append($nextPageElement);
+                        slider.addSlide($nextPageElement);
+                    });            
+                }
+
+                var paginateForward = function () {
+                        currentPage = currentPage - 1;
+                        currentPageId = "#comic" + currentPage;
+                        nextPage = currentPage - 1;
+                        nextPageId = "#comic" + nextPage;
+                        nextPageLink = "/page/" + nextPage;
+                        console.log("The current page is " + currentPage, "The next page is " + nextPage);
+                }
+               
+
+
+
+
+
+=======
+
+
+
+            },
+
+
+         before: function(slider){
+>>>>>>> forward works
+
+                var paginateNext = function () {
+                    currentPage = currentPage - 1;
+                    currentPageId = "#comic" + currentPage;
+
+<<<<<<< HEAD
+                if (slider.count < totalPages) {
+
+                    getPage(nextPageLink);
+                    paginateForward();
+                    console.log(slider.animatingTo);
+
+                }
+=======
+                    nextPage = currentPage - 1;
+                    thisPage = "/page/" + currentPage;
+                    bufNext1 = "/page/" + nextPage;
+                    bufNext2 = "/page/" + (nextPage - 1);
+                    bufNext3 = "/page/" + (nextPage - 2);
+
+                    prevPage = currentPage + 1;
+                    bufPrev1 = "/page/" + prevPage;
+                    bufPrev2 = "/page/" + (prevPage + 1);
+                    bufPrev3 = "/page/" + (prevPage + 2);
+
+                    pageNextBuffer =  currentPage - 1;
+                    pagePrevBuffer = totalPages - currentPage;
+>>>>>>> forward works
+
+                    console.log('This page: '+thisPage, "bufNext1: "+bufNext1, "bufNext2: "+bufNext2, "bufNext3: "+bufNext3);
+                }
+
+                var paginatePrev = function () {
+                    currentPage = currentPage + 1;
+                    var currentPageId = "#comic" + currentPage;
+
+<<<<<<< HEAD
+
+
+
+
+
+            },
+
+            before: function(slider){
+                if (slider.animatingTo > slider.currentSlide){
+                    console.log("Movin' Forward");
+
+                }else if(slider.animatingTo < slider.currentSlide){
+                    console.log("Movin' Back");
+=======
+                    nextPage = currentPage + 1;
+                    thisPage = "/page/" + currentPage;
+                    bufNext1 = "/page/" + nextPage;
+                    bufNext2 = "/page/" + (nextPage - 1);
+                    bufNext3 = "/page/" + (nextPage - 2);
+
+                    prevPage = currentPage + 1;
+                    bufPrev1 = "/page/" + prevPage;
+                    bufPrev2 = "/page/" + (prevPage + 1);
+                    bufPrev3 = "/page/" + (prevPage + 2);
+
+                    pageNextBuffer =  currentPage - 1;
+                    pagePrevBuffer = totalPages - currentPage;
+                    console.log("paginatePrev completed");                    
+
+                
+                }
+
+
+                if (slider.animatingTo > slider.currentSlide){
+                    console.log("Movin' Forward");
+                    if (pageNextBuffer > 0) {
+                        console.log("Page "+bufPrev3+" is next for the end");                
+                        paginateNext();
+                    }
+                }else if (slider.animatingTo < slider.currentSlide){
+
+                    if (pagePrevBuffer > 0) {
+                
+                        paginatePrev();
+                        console.log("Page "+bufPrev3+" is next for the end");
+
+                    }
+                }
+
+        },
+
+            after: function(slider){
+
+
+
+
+                var getPageAjax = function (pageLink, position, pageClass) {
+
+                    if (position == 0){
+                     $('.slides').prepend('<li class="'+pageClass+'"></li>');                       
+                    } else{
+                    $('.slides').append('<li class="'+pageClass+'"></li>');
+                    }
+                    
+                    slider.addSlide(('.'+pageClass), position);
+                    $.ajax({
+                        url: pageLink,
+                        beforeSend:function(){
+                           // $('.'+pageClass).html('<div class="loading">loading...</div>');
+
+                        },
+                        success: function(data) {
+                            $(('.'+pageClass)).empty();
+                            var $nextPageElement = $(data).find('.ajaxdetect > *');
+                            $('.'+pageClass).append($nextPageElement);
+                            if (slider.currentSlide == 0){
+                                console.log("Bufprev: " + bufPrev1 + " prevPage: " + prevPage);
+                                slider.flexAnimate(1);
+                            }
+                            
+                        }
+
+                    });
+                }
+                console.log(slider.currentSlide, slider.count);
+
+                if((slider.currentSlide+1) == slider.count){
+
+                    if (pageNextBuffer > 0) {
+                        getPageAjax(bufNext1, (slider.count+1), (nextPage));
+                    }
+                } else if ((slider.currentSlide+1) <= 1){
+                    if (pagePrevBuffer > 0) {
+                        getPageAjax(bufPrev1, 0, prevPage);
+                    }
+>>>>>>> forward works
+                }
+            }
+
+
+        });
+
+
+    });
+
+</script>
+
+<style>
+/*Basic styles*/
+
+{CustomCSS}
+</style>
+</head>
+
+<body>
+<header id="masthead">
+    <img src="{PortraitURL-128}"/>
+    <h1><a href="/" title="{lang:Home}">{Title}</a></h1>
+    <nav>
+    <ul>
+        {block:HasPages}
+        {block:Pages}
+        <li> <a href="{URL}">{Label}</a></li>
+        {/block:Pages}
+        {/block:HasPages}
+        {block:SubmissionsEnabled}
+        <li> <a href="/submit">{SubmitLabel}</a></li>
+        {/block:SubmissionsEnabled}
+        {block:AskEnabled}
+        <li> <a href="/ask">{AskLabel}</a></li>
+        {/block:AskEnabled}
+    </ul>
+    </nav>
+</header>
+
+<aside id="sidebar">
+    {block:IfSearchAndDescriptionInSidebar}
+    <div class="item">
+        {block:Description}
+        <h2>{lang:About Me}</h2>
+        <p>{Description}</p>
+        {block:Description}
+        
+        <form action="/search" method="get">
+            <input type="text" name="q" value="{SearchQuery}" placeholder="{lang:Search}"/>
+        </form>
+    </div>
+    {/block:IfSearchAndDescriptionInSidebar}
+
+    {block:IfLikesInSidebar}
+    {block:Likes}
+    <div class="item">
+        <h2>{lang:Likes}</h2>
+        {Likes limit="1" summarize="100" width="150"}
+        <a href="http://www.tumblr.com/liked/by/{Name}">
+        {lang:More liked posts}
+        </a>
+    </div>
+    {/block:Likes}
+    {/block:IfLikesInSidebar}
+
+    {block:IfFollowingInSidebar}
+    {block:Following}
+    <div class="item">
+        <h2>{lang:People I follow}</h2>
+        <div id="followed">
+            <ul>
+                {block:Followed}
+                <li>
+                    <a href="{FollowedURL}"><img src="{FollowedPortraitURL-48}"/></a>
+                </li>
+                {/block:Followed}
+            </ul>
+        </div>
+    </div>
+    {/block:Following}
+    {/block:IfFollowingInSidebar}
+</aside>
+ 
+<div id="content">
+    {block:Posts}
+    <article>
+
+          <div class="flexslider">
+            <ul class="slides">
+<<<<<<< HEAD
+              <li class="ajaxdetect">
+                {block:Photo}
+                <div class="photo inner">
+                    <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" />
+                    {block:Caption}{Caption}{/block:Caption}
+                {/block:Photo}
+                <h2>{CurrentPage}</h2>
+              </li>
+              <li class="garbage">
+                <p>garbage</p>
+=======
+              <li class="bufPrev2">
+
+              </li>
+              <li class="bufPrev1">
+
+              </li>
+              <li class="ajaxdetect">
+                {block:Photo}
+                <div class="photo inner">
+                    <img src="{PhotoURL-500}" alt="{PhotoAlt}" />
+                    {block:Caption}{Caption}{/block:Caption}
+                {/block:Photo}
+                <h2>{CurrentPage}</h2>
+              </li>
+              <li class="bufNext1">
+
+>>>>>>> forward works
+              </li>
+              <li class="bufNext2">
+
+              </li>
+
+
+
+            </ul>
+          </div>
+
+
+
+
+        {block:Date}
+        <footer class="metadata">
+            <ul class="index">
+                <li><a href="{Permalink}"> <time datetime="{Year}-{MonthNumberWithZero}-{DayOfMonthWithZero}">{DayOfMonth} {Month} {Year}</time> </a></li>
+
+                {block:NoteCount}<li><a class="notecount" href="{Permalink}#notes">{NoteCountWithLabel}</a></li>{/block:NoteCount}
+                
+                {block:ContentSource}
+                <li><a href="{SourceURL}">{lang:Source}:{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}
+                {block:SourceLogo}<img src="{BlackLogoURL}" width="{LogoWidth}"height="{LogoHeight}" alt="{SourceTitle}" />{/block:SourceLogo}</a></li>
+                {/block:ContentSource} 
+            </ul>
+
+            {block:PermalinkPage}
+            {block:HasTags}
+            <ul class="tags">
+                {block:Tags}<li><a href="{TagURL}">{Tag}</a> </li>{/block:Tags}
+            </ul>
+            {/block:HasTags}
+            
+            {block:PostNotes}
+            <div id="notes">
+                {PostNotes}
+            </div>
+            {/block:PostNotes} 
+            {/block:PermalinkPage} 
+        </footer>
+        {/block:Date}
+     </article>
+    {/block:Posts}
+    {block:Pagination}
+    <nav id="pagination">
+        <ul>
+            {block:PreviousPage}<li><a href="{PreviousPage}">Previous page</a></li>{/block:PreviousPage}
+            {block:NextPage}<li><a href="{NextPage}">Next page</a></li>{/block:NextPage}
+            <li><a href="/page/{TotalPages}">Go To The Beginning</a></li>
+        </ul>
+    </nav>
+    {/block:Pagination}
+</div>
+</body>
+</html>

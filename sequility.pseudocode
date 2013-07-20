@@ -1,0 +1,18 @@
+
+onClick nextButton {
+
+sequence.afterNextFrameAnimatesIn = function(){
+	
+
+}
+
+currentFrame.addClass ".focus"
+
+nextFrame.addClass ".preload"
+
+$('#content').ajaxPaginationFetch(.sequence-slide, .sequence-slide, nextLink, )
+
+}
+
+
+onclick

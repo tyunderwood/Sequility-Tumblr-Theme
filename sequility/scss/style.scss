@@ -1,0 +1,26 @@
+.inner {
+    width: 100%;
+    text-align: center;
+}
+
+
+.slides li img{
+    background-color: white;
+    display: inline-block;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 1px #BABABA;
+    box-shadow: 0 0 3px 3px #BABABA;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.slides{
+    background-color: #C9C9C9;
+}
+
+.disabled {
+    pointer-events:none;    
+    background-color: red;
+}
