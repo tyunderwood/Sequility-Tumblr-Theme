@@ -51,34 +51,73 @@
         var pageNextBuffer =  currentPage - 1;
         var pagePrevBuffer = totalPages - currentPage;
 
-        var movePrev = false;
+        var moveBack = false;
         var moveNext = false;   
 
 
-        var currentFrame = 2;
-        var nextFrame = 3;
-        var prevFrame = 1;
-        var loadTime = false;
+            if (pagePrevBuffer == 0) {
+                
+                $('li.bufPrev2').remove();
+                $('li.bufPrev1').remove();                
 
-
+            } else if (pagePrevBuffer == 1) {
                 
                 $.get(bufPrev1, function(data){
                     var $PageObject= data;
-                    var $PageElement = $($PageObject).find('#ajaxdetect');
-                    $('li.frame1').append($PageElement);
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufPrev1').append($PageElement);
 
                 });  
 
-             
+                $('.bufPrev2').remove();
+                    
+                var sliderStartAt = 1;                  
+            } else if (pagePrevBuffer > 1){
+
+                $.get(bufPrev2, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('.bufPrev2').append($PageElement);
+
+                });  
+                $.get(bufPrev1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('.bufPrev1').append($PageElement);
+
+                });  
+
+               console.log('pagePrevBuffer count is '+pagePrevBuffer);
+                var sliderStartAt = 2; 
+            } 
 
 
-        
+            if (pageNextBuffer == 0) {
+                $('li.bufNext2').remove();
+                $('li.bufNext1').remove();                
+            } else if (pageNextBuffer == 1) {
                 $.get(bufNext1, function(data){
                     var $PageObject= data;
-                    var $PageElement = $($PageObject).find('#ajaxdetect');
-                    $('li.frame3').append($PageElement);
-                });
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext1').append($PageElement);
 
+                });  
+
+                $('.bufNext2').remove();
+            } else if (pageNextBuffer > 1) {
+                $.get(bufNext1, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext1').append($PageElement);
+
+                });   
+                $.get(bufNext2, function(data){
+                    var $PageObject= data;
+                    var $PageElement = $($PageObject).find('.ajaxdetect');
+                    $('li.bufNext2').append($PageElement);
+
+                });              
+            }
 
 
 
@@ -96,9 +135,11 @@
 
 
              animation: "slide",
-             startAt: 1,
-             animationLoop: true, 
              slideshow: false,
+             startAt: sliderStartAt,
+             itemWidth: 80,
+             maxItems: 1,
+             minItems: 1,
              
 
 
@@ -133,29 +174,7 @@
                     pageNextBuffer =  currentPage - 1;
                     pagePrevBuffer = totalPages - currentPage;
 
-                    //console.log('This page: '+thisPage, "bufNext1: "+bufNext1, "bufNext2: "+bufNext2, "bufNext3: "+bufNext3);
-
-                    if (currentFrame < 3) {
-                        currentFrame += 1;
-                    } else if (currentFrame == 3){
-                        currentFrame = 1;
-                    } else {
-                        console.error('CURRENT FRAME WENT APESHIT ', currentFrame);
-                    }
-                    if (nextFrame < 3) {
-                        nextFrame += 1;
-                    } else if (nextFrame == 3){
-                        nextFrame = 1;
-                    } else {
-                        console.error('NEXT FRAME WENT APESHIT ', currentFrame);
-                    }
-                    if (prevFrame < 3) {
-                        prevFrame += 1;
-                    } else if (prevFrame == 3){
-                        prevFrame = 1;
-                    } else {
-                        console.error('PREV FRAME WENT APESHIT ', currentFrame);
-                    }
+                    console.log('This page: '+thisPage, "bufNext1: "+bufNext1, "bufNext2: "+bufNext2, "bufNext3: "+bufNext3);
                 }
 
                 var paginatePrev = function () {
@@ -175,35 +194,25 @@
 
                     pageNextBuffer =  currentPage - 1;
                     pagePrevBuffer = totalPages - currentPage;
-                    console.log("paginatePrev completed");  
-         
+                    console.log("paginatePrev completed");                    
 
                 
                 }
 
-                console.log(slider.animatingTo, slider.currentSlide, " bullshit"); 
-                if (slider.animatingTo > slider.currentSlide || (slider.animatingTo == 0 && slider.currentSlide == 2)){
+
+                if (slider.animatingTo > slider.currentSlide){
                     console.log("Movin' Forward");
                     if (pageNextBuffer > 0) {
                         console.log("Page "+bufPrev3+" is next for the end");                
                         paginateNext();
-                        moveNext = true;
                     }
-                }else if (slider.animatingTo < slider.currentSlide || (slider.animatingTo == 2 && slider.currentSlide == 0)){
+                }else if (slider.animatingTo < slider.currentSlide){
 
                     if (pagePrevBuffer > 0) {
                 
                         paginatePrev();
                         console.log("Page "+bufPrev3+" is next for the end");
-                        movePrev = true;
 
-                    }
-                }
-
-                if (loadTime == false){
-                    if ((slider.animatingTo == 0 && slider.currentSlide == 2) || (slider.animatingTo == 2 && slider.currentSlide == 0)){
-                        loadTime = true;
-                        console.log("setting loadTime to true");
                     }
                 }
 
@@ -211,96 +220,58 @@
 
             after: function(slider){
 
-                if (pageNextBuffer <= 0){
-                    $('.flex-next').addClass('disabled');
-                } else {
-                    $('.flex-next').removeClass('disabled');
-                }
-
-
-                if (pagePrevBuffer <= 0) {
-                    $('.flex-prev').addClass('disabled');
-                } else {
-                    $('.flex-prev').removeClass('disabled');
-                }
 
 
 
+                var getPageAjax = function (pageLink, position, pageClass) {
 
-                var getPageAjax = function (pageLink, targetFrame, pageClass) {
+                    if (position == 0){
+                     $('.slides').prepend('<li class="'+pageClass+'"></li>');                       
+                    } else{
+                    $('.slides').append('<li class="'+pageClass+'"></li>');
+                    }
                     
+                    slider.addSlide(('.'+pageClass), position);
                     $.ajax({
                         url: pageLink,
                         beforeSend:function(){
-                            $(('.'+targetFrame)).empty();
-                            $('.'+targetFrame).append("<img src='http://2.bp.blogspot.com/-iarq5sjWDWc/TWRxt8nPegI/AAAAAAAAA_0/ABabl2TlOO0/s320/emu.jpg' /><br /><br /><h1>LOADING</h1>");
+                           // $('.'+pageClass).html('<div class="loading">loading...</div>');
 
                         },
                         success: function(data) {
-                            $(('.'+targetFrame)).empty();
-                            var $nextPageElement = $(data).find('#ajaxdetect > *');
-                            $('.'+targetFrame).append($nextPageElement);
-                            console.log ("replacement of " + targetFrame + " is succssful");
+                            $(('.'+pageClass)).empty();
+                            var $nextPageElement = $(data).find('.ajaxdetect > *');
+                            $('.'+pageClass).append($nextPageElement);
+                            if (slider.currentSlide == 0){
+                                console.log("Bufprev: " + bufPrev1 + " prevPage: " + prevPage);
+                            }
                             
                         }
 
                     });
                 }
-
-
                 console.log(slider.currentSlide, slider.count);
 
-                if(moveNext == true && loadTime == true) {
+                if((slider.currentSlide+1) == slider.count){
                             console.log ("hit the edge at pos ", slider.currentSlide);
 
-                            currentFrame = (slider.currentSlide +1);
-
                     if (pageNextBuffer > 0) {
-                        if (currentFrame == 1){
-                            console.log ("replacing frame 2")
-                            getPageAjax(bufNext1, "frame2", (nextPage));
-                        } else if (currentFrame == 2){
-                            console.log ("replacing frame 3")
-                            getPageAjax(bufNext1, "frame3", (nextPage));
-                        } else if (currentFrame == 3){
-                            console.log ("replacing frame 1")
-                            getPageAjax(bufNext1, "frame1", (nextPage));
-                        } else {
-                            console.error ("Something has gone wrong with where the current frame is");
+
+                        for (i = slider.count; i > 0; i-= 1){
+                            slider.removeSlide(i);
+                            console.log ("removed slide ", i);
+                            console.log ("slider count: ", slider.count);
                         }
 
-                        
+                        getPageAjax(bufNext1, (slider.count+1), (nextPage));
                     } else {
                         console.log ("hit the beginning of story");
                     }
-
-
-                    moveNext = false;
-                } else if (movePrev == true && loadTime == true){
+                } else if ((slider.currentSlide+1) <= 1){
                     if (pagePrevBuffer > 0) {
-
-                        if (currentFrame == 1){
-                            console.log ("replacing frame 2")
-                            getPageAjax(bufPrev1, "frame2", prevPage);
-                        } else if (currentFrame == 2){
-                            console.log ("replacing frame 3")
-                            getPageAjax(bufPrev1, "frame3", prevPage);
-                        } else if (currentFrame == 3){
-                            console.log ("replacing frame 1")
-                            getPageAjax(bufPrev1, "frame1", prevPage);
-                        } else {
-                            console.error ("Something has gone wrong with where the current frame is");
-                        }
+                        getPageAjax(bufPrev1, 0, prevPage);
                     }
-
-
-                    movePrev = false;
-
-
-
                 }
-
-                console.log ("Pages:  " + prevPage + " | " + currentPage + " | " + nextPage);
             }
 
 
@@ -389,11 +360,13 @@
 
           <div class="flexslider">
             <ul class="slides">
-
-              <li class="frame1">
+              <li class="bufPrev2">
 
               </li>
-              <li id="ajaxdetect" class="frame2">
+              <li class="bufPrev1">
+
+              </li>
+              <li class="ajaxdetect">
                 {block:Photo}
                 <div class="photo inner">
                     <img src="{PhotoURL-500}" alt="{PhotoAlt}" />
@@ -401,10 +374,12 @@
                 {/block:Photo}
                 <h2>{CurrentPage}</h2>
               </li>
-              <li class="frame3">
+              <li class="bufNext1">
 
               </li>
+              <li class="bufNext2">
 
+              </li>
 
 
 
