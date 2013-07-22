@@ -27,7 +27,6 @@
 <script type="text/javascript" src="http://bytyunderwood.com/sequility/js/jquery.flexslider.js"></script>
 
 <script type="text/javascript">
-  
     $(document).ready(function(){
         console.log("shit is logging okay, now doing ajax biz");
 
@@ -54,66 +53,35 @@
         var movePrev = false;
         var moveNext = false;   
 
-
         var currentFrame = 2;
         var nextFrame = 3;
         var prevFrame = 1;
         var loadTime = false;
 
+        $.get(bufPrev1, function(data){
+            var $PageObject= data;
+            var $PageElement = $($PageObject).find('#ajaxdetect');
+            $('li.frame1').append($PageElement);
+        });  
 
-                
-                $.get(bufPrev1, function(data){
-                    var $PageObject= data;
-                    var $PageElement = $($PageObject).find('#ajaxdetect');
-                    $('li.frame1').append($PageElement);
-
-                });  
-
-             
-
-
-        
-                $.get(bufNext1, function(data){
-                    var $PageObject= data;
-                    var $PageElement = $($PageObject).find('#ajaxdetect');
-                    $('li.frame3').append($PageElement);
-                });
-
-
-
-
-
+        $.get(bufNext1, function(data){
+            var $PageObject= data;
+            var $PageElement = $($PageObject).find('#ajaxdetect');
+            $('li.frame3').append($PageElement);
+        });
 
         console.log ("The page next buffer is " + pageNextBuffer);
         console.log ("The page prev buffer is " + pagePrevBuffer);
 
-
-
-
-
-
         $('.flexslider').flexslider({
-
-
-             animation: "slide",
-             startAt: 1,
-             animationLoop: true, 
-             slideshow: false,
+            animation: "slide",
+            startAt: 1,
+            animationLoop: true, 
+            slideshow: false,
              
+            start: function(slider){},
 
-
-
-            
-             start: function(slider){
-
-
-
-
-
-            },
-
-
-         before: function(slider){
+            before: function(slider){
 
                 var paginateNext = function () {
                     currentPage = currentPage - 1;
@@ -176,12 +144,10 @@
                     pageNextBuffer =  currentPage - 1;
                     pagePrevBuffer = totalPages - currentPage;
                     console.log("paginatePrev completed");  
-         
-
-                
                 }
 
                 console.log(slider.animatingTo, slider.currentSlide, " bullshit"); 
+
                 if (slider.animatingTo > slider.currentSlide || (slider.animatingTo == 0 && slider.currentSlide == 2)){
                     console.log("Movin' Forward");
                     if (pageNextBuffer > 0) {
@@ -192,11 +158,9 @@
                 }else if (slider.animatingTo < slider.currentSlide || (slider.animatingTo == 2 && slider.currentSlide == 0)){
 
                     if (pagePrevBuffer > 0) {
-                
                         paginatePrev();
                         console.log("Page "+bufPrev3+" is next for the end");
                         movePrev = true;
-
                     }
                 }
 
@@ -207,7 +171,7 @@
                     }
                 }
 
-        },
+            },
 
             after: function(slider){
 
@@ -217,15 +181,11 @@
                     $('.flex-next').removeClass('disabled');
                 }
 
-
                 if (pagePrevBuffer <= 0) {
                     $('.flex-prev').addClass('disabled');
                 } else {
                     $('.flex-prev').removeClass('disabled');
                 }
-
-
-
 
                 var getPageAjax = function (pageLink, targetFrame, pageClass) {
                     
@@ -234,19 +194,15 @@
                         beforeSend:function(){
                             $(('.'+targetFrame)).empty();
                             $('.'+targetFrame).append("<img src='http://2.bp.blogspot.com/-iarq5sjWDWc/TWRxt8nPegI/AAAAAAAAA_0/ABabl2TlOO0/s320/emu.jpg' /><br /><br /><h1>LOADING</h1>");
-
                         },
                         success: function(data) {
                             $(('.'+targetFrame)).empty();
                             var $nextPageElement = $(data).find('#ajaxdetect > *');
                             $('.'+targetFrame).append($nextPageElement);
-                            console.log ("replacement of " + targetFrame + " is succssful");
-                            
+                            console.log ("replacement of " + targetFrame + " is succssful");   
                         }
-
                     });
                 }
-
 
                 console.log(slider.currentSlide, slider.count);
 
@@ -274,7 +230,6 @@
                         console.log ("hit the beginning of story");
                     }
 
-
                     moveNext = false;
                 } else if (movePrev == true && loadTime == true){
                     if (pagePrevBuffer > 0) {
@@ -292,29 +247,18 @@
                             console.error ("Something has gone wrong with where the current frame is");
                         }
                     }
-
-
                     movePrev = false;
-
-
-
                 }
-
                 console.log ("Pages:  " + prevPage + " | " + currentPage + " | " + nextPage);
             }
-
-
         });
-
-
     });
-
 </script>
 
 <style>
-/*Basic styles*/
+    /*Basic styles*/
 
-{CustomCSS}
+    {CustomCSS}
 </style>
 </head>
 
